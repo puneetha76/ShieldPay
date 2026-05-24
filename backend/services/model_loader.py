@@ -9,8 +9,7 @@ _scaler = None
 
 def load_model():
     global _model, _scaler
-    if _model is not None:
-        return
+    print(f"Looking for model at: {MODEL_PATH}")
     if not os.path.exists(MODEL_PATH):
         print(f"Model not found: {MODEL_PATH}")
         return
@@ -19,20 +18,16 @@ def load_model():
         return
     _model  = joblib.load(MODEL_PATH)
     _scaler = joblib.load(SCALER_PATH)
-    print("Model loaded successfully")
+    print(f"✅ Model loaded successfully")
 
 def get_model():
-    if _model is None:
-        load_model()
     return _model
 
 def get_scaler():
-    if _scaler is None:
-        load_model()
     return _scaler
 
 def get_explainer():
-    return None   # Disabled to save memory
+    return None
 
 def is_loaded():
-    return _model is not None
+    return _model is not None and _scaler is not None

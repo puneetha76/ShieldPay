@@ -36,8 +36,8 @@ _db.PredictionLog = PredictionLog
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("ShieldPay starting up...")
-    # Don't load model at startup to save memory
-    # Model loads on first prediction request
+    from services.model_loader import load_model
+    load_model()
     yield
     print("ShieldPay shutting down.")
 
@@ -76,11 +76,10 @@ app.include_router(history_router)
 # ── Health ────────────────────────────────────────────────────
 @app.get("/")
 def root():
-    from services.model_loader import get_model
     return {
         "service"      : "ShieldPay Fraud Detection API",
         "status"       : "online",
-        "model_loaded" : get_model() is not None,
+        "model_loaded" : is_loaded(),
         "docs"         : "/docs",
     }
 

@@ -41,6 +41,7 @@ async def lifespan(app: FastAPI):
     yield
     print("ShieldPay shutting down.")
 
+
 # ── App ───────────────────────────────────────────────────────
 app = FastAPI(
     title       = "ShieldPay Fraud Detection API",
@@ -75,10 +76,11 @@ app.include_router(history_router)
 # ── Health ────────────────────────────────────────────────────
 @app.get("/")
 def root():
+    from services.model_loader import get_model
     return {
         "service"      : "ShieldPay Fraud Detection API",
         "status"       : "online",
-        "model_loaded" : is_loaded(),
+        "model_loaded" : get_model() is not None,
         "docs"         : "/docs",
     }
 

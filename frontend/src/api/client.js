@@ -1,11 +1,5 @@
-cd C:\Users\puneetha\OneDrive\Desktop\ShieldPay
-
-$content = @'
 // frontend/src/api/client.js
-
-const BASE_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://shieldpay-backend-xa7r.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://shieldpay-backend-xa7r.onrender.com";
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -17,9 +11,9 @@ async function request(path, options = {}) {
   });
 
   if (!res.ok) {
-    const err = await res
-      .json()
-      .catch(() => ({ detail: res.statusText }));
+    const err = await res.json().catch(() => ({
+      detail: res.statusText,
+    }));
 
     throw new Error(err.detail || `API error ${res.status}`);
   }
@@ -44,17 +38,14 @@ export const batchPredict = (file, threshold = 0.5) => {
   const form = new FormData();
   form.append("file", file);
 
-  return fetch(
-    `${BASE_URL}/batch-predict?threshold=${threshold}`,
-    {
-      method: "POST",
-      body: form,
-    }
-  ).then(async (res) => {
+  return fetch(`${BASE_URL}/batch-predict?threshold=${threshold}`, {
+    method: "POST",
+    body: form,
+  }).then(async (res) => {
     if (!res.ok) {
-      const err = await res
-        .json()
-        .catch(() => ({ detail: res.statusText }));
+      const err = await res.json().catch(() => ({
+        detail: res.statusText,
+      }));
 
       throw new Error(err.detail);
     }
@@ -62,7 +53,3 @@ export const batchPredict = (file, threshold = 0.5) => {
     return res.json();
   });
 };
-'@
-
-$content | Out-File -FilePath "frontend/src/api/client.js" -Encoding utf8
-Write-Host "Done!"

@@ -36,7 +36,8 @@ _db.PredictionLog = PredictionLog
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("ShieldPay starting up...")
-    load_model()
+    # Don't load model at startup to save memory
+    # Model loads on first prediction request
     yield
     print("ShieldPay shutting down.")
 

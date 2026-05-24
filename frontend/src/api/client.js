@@ -1,3 +1,7 @@
+cd C:\Users\puneetha\OneDrive\Desktop\ShieldPay
+
+$content = @'
+// frontend/src/api/client.js
 const BASE_URL = import.meta.env.VITE_API_URL || "https://shieldpay-backend-xa7r.onrender.com";
 
 async function request(path, options = {}) {
@@ -26,3 +30,7 @@ export const batchPredict = (file, threshold = 0.5) => {
       return res.json();
     });
 };
+'@
+
+$content | Out-File -FilePath "frontend/src/api/client.js" -Encoding utf8
+Write-Host "Done!"
